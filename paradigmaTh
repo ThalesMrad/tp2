@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "paradigma.h"
+#include "entradaSaida.h"
+
+int forcaBruta(int i, int j, int **mat, int *clock, int maior, int tamanhoMatriz){
+   //(*clock)++;
+   //printf("contador: %d\n", *clock);
+  int range = maior, flag = 0;
+  int i_range, j_range;
+
+  while (1) {
+
+    i_range = range + i;
+    j_range = range + j;
+
+    if (i_range > tamanhoMatriz || j_range > tamanhoMatriz)
+      return maior;
+
+    for (int lin = i; lin < i_range; lin++){
+      for (int col = j; col < j_range; col++){
+        //(*clock)++;
+        if (mat[lin][col] == 0){
+          return maior;
+        }
+      }
+    }
+
+    maior = range;
+    range++;
+  }
+
+  return maior;
+}
+int checaSubmatriz(int **matriz,int y,int x,int tamanhoSubmatriz){
+  int yB,xB;
+  for (yB = 0; yB < tamanhoSubmatriz; yB++) {
+    for (xB = 0; xB < tamanhoSubmatriz; xB++){
+        if(!matriz[yB+y][xB+x])
+          return 0;
+        }
+    }
+      return 1;
+}
+
+int guloso(int **matriz,int tamanhoMatriz,Ponto* inicial){
+  int i,j,yAnda,xAnda,ContadorAnda,tamanhoSubmatriz;
+
+  for(tamanhoSubmatriz = tamanhoMatriz ; tamanhoSubmatriz>0;tamanhoSubmatriz--){
+    ContadorAnda = tamanhoMatriz -tamanhoSubmatriz + 1;
+    for(yAnda = 0;yAnda < ContadorAnda ;yAnda++){
+      for(xAnda = 0;xAnda < ContadorAnda; xAnda++){
+        if(checaSubmatriz(matriz,yAnda,xAnda,tamanhoSubmatriz)){
+          inicial->y = yAnda;
+          inicial->x = xAnda;
+          return tamanhoSubmatriz;
+        }
+      }
+    }
+  }
+}
