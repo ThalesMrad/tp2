@@ -16,17 +16,25 @@ void main(int argc, char *argv[]){
     int maior = 0, clock = 0, sub_matriz;
     Ponto inicial;
 
-    for (int i=0; i<tamanhoMatriz; i++){
-      for (int j=0; j<tamanhoMatriz; j++){
-        if ((sub_matriz = forcaBruta(i, j, mat, &clock, maior, tamanhoMatriz)) > maior) {
-          maior = sub_matriz;
-          inicial.x = i;
-          inicial.y = j;
-        }
-      }
-    }
-
+    double utime_ant, utime_pos, stime_ant, stime_pos;
+    contaTempoProcessador(&utime_ant, &stime_ant);
+    maior = forcaBruta(mat, tamanhoMatriz, &inicial);
+    contaTempoProcessador(&utime_pos, &stime_pos);
+    imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
     imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
+
+    contaTempoProcessador(&utime_ant, &stime_ant);
+    maior = guloso(mat, tamanhoMatriz, &inicial);
+    contaTempoProcessador(&utime_pos, &stime_pos);
+    imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
+    imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
+
+    contaTempoProcessador(&utime_ant, &stime_ant);
+    maior = dinamica(mat, tamanhoMatriz, &inicial);
+    contaTempoProcessador(&utime_pos, &stime_pos);
+    imprimeTempo(utime_pos - utime_ant, stime_pos - stime_ant, arq->saida);
+    imprimeArqSaida(arq->saida, mat, maior, inicial, tamanhoMatriz);
+
     liberaPonteiros(arq, mat, tamanhoMatriz);
   }
 }
