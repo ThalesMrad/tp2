@@ -25,16 +25,21 @@ int forcaBruta(int **mat, int tamanhoMatriz, Ponto* inicial){
       }
     }
   }
+  if (maior == 0){
+    inicial->x = -1;
+    inicial->y = -1;
+  }
   return maior;
 }
 
 int submatrizPossivel(int i, int j, int **mat, int *clock, int maior, int tamanhoMatriz){
-  int range = maior + 1;
-  int i_range, j_range;
-                                          // pega a maior submatriz possivel a partir do ponto [i][j]
-  while (1) {
+  int range = maior + 1;    // esta atribuição poupa tempo ao nao calcular submatrizes menor do que
+                                              // a maior submatriz que o algortimo ja possui
 
-    if (range + i > tamanhoMatriz || range + j > tamanhoMatriz){
+
+  while (1) {
+                          // pega a maior submatriz possivel a partir do ponto [i][j]
+    if ( range + i > tamanhoMatriz ||  range + j > tamanhoMatriz){
       return maior;
     }
 
@@ -45,8 +50,6 @@ int submatrizPossivel(int i, int j, int **mat, int *clock, int maior, int tamanh
     maior = range;
     range++;
   }
-
-  return maior;
 }
 
 
@@ -87,6 +90,10 @@ int dinamica(int **matriz, int tamanhoMatriz, Ponto* inicial){
       }
     }
   }
+  if (maior == 0){
+    inicial->x = -1;
+    inicial->y = -1;
+  }
   return maior;
 }
 
@@ -107,6 +114,10 @@ int guloso(int **mat, int tamanhoDiagonal, Ponto elemento, Ponto* inicial){
         if (checkSubMatrizGuloso(mat, i, j, maior)){
           inicial->x = i;
           inicial->y = j;
+          if (maior == 0){
+            inicial->x = -1;
+            inicial->y = -1;
+          }
           return maior;
         }
       }
